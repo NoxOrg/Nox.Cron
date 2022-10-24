@@ -139,10 +139,10 @@ $goo.Command.Add( 'main', { param( $featureName )
     $goo.Git.CheckoutMain()
 })
 
-# command: goo pubish | Build and publish Nox.Dynamic nuget package
+# command: goo publish | Build and publish Nox.Cron nuget package
 $goo.Command.Add( 'publish', { 
     $goo.Console.WriteInfo("Packing solution...")
-    $goo.Command.RunExternal('dotnet','pack /clp:ErrorsOnly --configuration Release', $script:LibFolder)
+    $goo.Command.RunExternal('dotnet','pack /clp:ErrorsOnly --configuration Release', $script:ProjectFolder)
     $goo.StopIfError("Failed to pack solution. (Release)")
     $goo.Command.RunExternal('dotnet',"nuget push ./bin/Release/Nox.Cron.1.0.0.nupkg --api-key $Env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json", $script:LibFolder)
     $goo.StopIfError("Failed to publish library to nuget. (Release)")
