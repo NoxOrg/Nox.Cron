@@ -144,7 +144,8 @@ $goo.Command.Add( 'publish', {
     $goo.Console.WriteInfo("Packing solution...")
     $goo.Command.RunExternal('dotnet','pack /clp:ErrorsOnly --configuration Release', $script:ProjectFolder)
     $goo.StopIfError("Failed to pack solution. (Release)")
-    $goo.Command.RunExternal('dotnet',"nuget push ./bin/Release/Nox.Cron.1.0.0.nupkg --api-key $Env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json", $script:LibFolder)
+    $nupkgFile = Get-ChildItem "$script:ProjectFolder\bin\Release\Nox.Cron.*.nupkg" | Sort-Object -Property LastWriteTime | Select-Object -Last 1
+    $goo.Command.RunExternal('dotnet',"nuget push $($nupkgFile.FullName) --api-key $Env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json", $script:ProjectFolder)
     $goo.StopIfError("Failed to publish library to nuget. (Release)")
 })
 
