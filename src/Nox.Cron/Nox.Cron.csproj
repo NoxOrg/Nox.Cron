@@ -4,8 +4,18 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	  <PackageId>Nox.Cron</PackageId>
-  	<Version>1.0.2</Version>
+  	<Version>1.0.3</Version>
   	<Authors>Andre Sharpe</Authors>
   	<Company>Creations Unlimited</Company>
+    <PackageTags>Microsoft Azure Storage Blobs;Microsoft;Azure;Blobs;Blob;Storage;StorageScalable</PackageTags>
+    <Description>
+      Converts an English phrase to a CRON expression.
+
+      Example:
+
+      var cron = "every 3rd day at 2:55 am from January to August".ToCronExpresssion();
+
+      Console.WriteLine(cron.ToString()); // Output: 55 2 */3 1-8 *
+    </Description>
   </PropertyGroup>
 </Project>
