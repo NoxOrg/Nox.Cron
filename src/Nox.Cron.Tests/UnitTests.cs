@@ -94,7 +94,7 @@ public class UnitTests
     [Fact]
     public void Test_Every3monthsonthe2ndand4that8am()
     {
-        Assert.Equal("0 8 2,,4 */3 *", "Every 3 months on the 2nd and 4th at 8am".ToCronExpresssion().ToString());
+        Assert.Equal("0 8 2,4 */3 *", "Every 3 months on the 2nd and 4th at 8am".ToCronExpresssion().ToString());
     }
 
     [Fact]
@@ -213,7 +213,7 @@ public class UnitTests
     [Fact]
     public void Test_11h34on13and16June()
     {
-        Assert.Equal("34 11 13,,16 6 *", "11:34 on 13 and 16 June".ToCronExpresssion().ToString());
+        Assert.Equal("34 11 13,16 6 *", "11:34 on 13 and 16 June".ToCronExpresssion().ToString());
     }
     
 }

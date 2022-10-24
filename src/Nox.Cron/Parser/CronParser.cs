@@ -362,7 +362,8 @@ namespace Nox.Cron
 
                 if (!string.IsNullOrWhiteSpace(words[i]) && words[i].All(c => Char.IsWhiteSpace(c) || Char.IsDigit(c)))
                 {
-                    schedule.DayOfMonth = words[i].Replace(' ', ',');
+                    var elements = words[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                    schedule.DayOfMonth = string.Join(',',elements);
                     words.RemoveAt(i);
                     continue;
                 }
