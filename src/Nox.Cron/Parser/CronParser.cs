@@ -23,7 +23,7 @@ namespace Nox.Cron
         }
 
         /// <summary>
-        /// Converts an English phrase to a CRON expresion
+        /// Converts an English phrase to a CRON expression
         /// </summary>
         /// <param name="englishPhrase">the english phrase to convert to a CRON expression.</param>
         public static CronSchedule ToCronExpresssion(this string englishPhrase)
