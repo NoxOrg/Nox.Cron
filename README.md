@@ -27,7 +27,7 @@ At 5pm on odd days|0 17 1-31/2 * *
 every 3rd day at 2:55 am from January to August|55 2 */3 1-8 *
 Every Tuesday at 15:00|0 15 * * 2
 never|0 0 31 2 0
-|0 0 31 2 0
+ |0 0 31 2 0
 every day at 9am|0 9 * * *
 every 6 hours|0 */6 * * *
 each day|0 0 * * *
