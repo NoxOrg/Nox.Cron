@@ -3,20 +3,18 @@
 namespace Nox.Cron
 {
 
+    /// <summary>
+    /// Extension method to convert English phrase to a CRON expression
+    /// </summary>
     public static class CronParserExtension
     {
         private struct CronSheduleBuilder
         {
             internal string Minutes = string.Empty;
-
             internal string Hours = string.Empty;
-
             internal string DayOfMonth = string.Empty;
-
             internal string Months = string.Empty;
-
             internal string DayOfWeek = string.Empty;
-
             internal string Unparsed = string.Empty;
 
             public CronSheduleBuilder()
@@ -24,6 +22,10 @@ namespace Nox.Cron
             }
         }
 
+        /// <summary>
+        /// Converts an English phrase to a CRON expresion
+        /// </summary>
+        /// <param name="englishPhrase">the english phrase to convert to a CRON expression.</param>
         public static CronSchedule ToCronExpresssion(this string englishPhrase)
         {
             var schedule = new CronSheduleBuilder();
@@ -203,34 +205,8 @@ namespace Nox.Cron
                 }
             }
 
-            // days of month
-            /*
-            var domStartPos = words.IndexOf("[D]");
-            if (domStartPos > -1)
-            {
-                var sbDom = new StringBuilder();
-                var domWordCount = 0;
-                for (var i = domStartPos+1; i < words.Count; i++)
-                {
-                    if (words[i].StartsWith('[')) break;
-                    if (!words[i].All(c => Char.IsDigit(c))) break;
-                    domWordCount++;
-                    sbDom.Append(words[i]);
-                    sbDom.Append(',');
-                }
+            // convert month and day names
 
-                if (sbDom.Length > 0)
-                {
-                    schedule.DayOfMonth = sbDom.ToString().TrimEnd(',');
-
-                    for (var i = domStartPos + domWordCount; i >= domStartPos+1; i--)
-                    {
-                        words.RemoveAt(i);
-                    }
-                }
-
-            }
-            */
             var days = new List<string>()
             {
                 "sun", "mon", "tue", "wed", "thu", "fri", "sat"
@@ -251,8 +227,7 @@ namespace Nox.Cron
             {
                 if (words[i].StartsWith("["))
                 {
-                    // ignore tokens
-                    // words[i] = "";
+                    // ignore all tokens
                 }
 
                 else if (days.Contains(words[i]))
@@ -292,6 +267,8 @@ namespace Nox.Cron
             sbDayOfWeek.Replace("_-_", "-");
             sbDayOfWeek.Replace("_", ",");
             schedule.DayOfWeek = sbDayOfWeek.ToString().TrimEnd(',');
+
+            // convert "odd" and "even" phrases
 
             for (var i = 0; i < words.Count-1; i++)
             {
@@ -341,7 +318,7 @@ namespace Nox.Cron
 
             }
 
-            // never
+            // handle "never"
 
             if (words.IndexOf("never") > -1)
             {
@@ -355,7 +332,7 @@ namespace Nox.Cron
             }
 
 
-            // is there anything unparsed that may be a time or day-of-month?
+            // handle anything unparsed that may be a time or day-of-month
 
             words = string.Join(' ', words.ToArray())
                 .Trim()
@@ -392,9 +369,7 @@ namespace Nox.Cron
 
             }
 
-
-
-            // defaults 
+            // default all elements of schedule to "*"
 
             if (string.IsNullOrWhiteSpace(schedule.Minutes))
                 schedule.Minutes = "*";
@@ -412,6 +387,8 @@ namespace Nox.Cron
                 schedule.DayOfWeek = "*";
 
             schedule.Unparsed = string.Join(' ',words.ToArray()).Trim();
+
+            // done
 
             return new CronSchedule
             {
