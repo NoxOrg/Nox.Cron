@@ -2,7 +2,7 @@
 Convert an English phrase to a CRON expression for .NET
 
 ```csharp
-var cron = "11:34 on 13 June".ToCronExpresssion().ToString(); // 34 11 13 6 *
+var cron = "11:34 on 13 June".ToCronExpression().ToString(); // 34 11 13 6 *
 ```
 
 ### To install from nuget.org

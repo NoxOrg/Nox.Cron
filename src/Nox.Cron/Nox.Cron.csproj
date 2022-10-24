@@ -4,7 +4,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	  <PackageId>Nox.Cron</PackageId>
-  	<Version>1.0.7</Version>
+  	<Version>1.0.8</Version>
   	<Authors>Andre Sharpe</Authors>
   	<Company>Creations Unlimited</Company>
     <PackageTags>English Cron Extension String Convert</PackageTags>
@@ -15,7 +15,7 @@
 
       Example:
 
-      var cron = "every 3rd day at 2:55 am from January to August".ToCronExpresssion();
+      var cron = "every 3rd day at 2:55 am from January to August".ToCronExpression();
 
       Console.WriteLine(cron.ToString()); // Outputs: 55 2 */3 1-8 *
     </Description>
