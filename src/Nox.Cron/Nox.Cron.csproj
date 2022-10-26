@@ -4,12 +4,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	  <PackageId>Nox.Cron</PackageId>
-  	<Version>1.0.9</Version>
+  	<Version>1.0.10</Version>
   	<Authors>Andre Sharpe</Authors>
   	<Company>Creations Unlimited</Company>
     <PackageTags>English Cron Extension String Convert</PackageTags>
     <PackageProjectUrl>https://github.com/andresharpe/Nox.Cron</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>images\nox.png</PackageIcon>
     <Description>
       Converts an English phrase to a CRON expression.
 
@@ -20,4 +21,7 @@
       Console.WriteLine(cron.ToString()); // Outputs: 55 2 */3 1-8 *
     </Description>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\..\nox.png" Pack="true" Visible="false" PackagePath="images\nox.png" />
+  </ItemGroup>
 </Project>
