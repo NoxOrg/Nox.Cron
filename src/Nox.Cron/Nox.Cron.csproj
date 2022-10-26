@@ -4,7 +4,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	  <PackageId>Nox.Cron</PackageId>
-  	<Version>1.0.8</Version>
+  	<Version>1.0.9</Version>
   	<Authors>Andre Sharpe</Authors>
   	<Company>Creations Unlimited</Company>
     <PackageTags>English Cron Extension String Convert</PackageTags>
