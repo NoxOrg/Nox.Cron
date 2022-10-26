@@ -215,5 +215,12 @@ public class UnitTests
     {
         Assert.Equal("34 11 13,16 6 *", "11:34 on 13 and 16 June".ToCronExpression().ToString());
     }
+
+    [Fact]
+    public void Test_DailyAt2amOnFridays()
+    {
+        Assert.Equal("0 2 * * 5", "Daily at 2am UTC on Fridays".ToCronExpression().ToString());
+    }
+    
     
 }

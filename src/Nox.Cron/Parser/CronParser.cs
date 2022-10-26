@@ -233,6 +233,10 @@ namespace Nox.Cron
                 else if (days.Contains(words[i]))
                 {
                     isDaySequence = true;
+                    if (sbDayOfWeek.ToString().Equals("*"))
+                    {
+                        sbDayOfWeek.Clear();
+                    }
                     sbDayOfWeek.Append(days.IndexOf(words[i]));
                     sbDayOfWeek.Append('_');
                     words[i] = "";
@@ -241,6 +245,10 @@ namespace Nox.Cron
                 else if (months.Contains(words[i]))
                 {
                     isDaySequence = false;
+                    if (sbMonths.ToString().Equals("*"))
+                    {
+                        sbMonths.Clear();
+                    }
                     sbMonths.Append(months.IndexOf(words[i]));
                     sbMonths.Append('_');
                     words[i] = "";
