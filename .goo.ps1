@@ -141,13 +141,55 @@ $goo.Command.Add( 'main', { param( $featureName )
 
 # command: goo publish | Build and publish Nox.Cron nuget package
 $goo.Command.Add( 'publish', { 
-    $goo.Console.WriteInfo("Packing solution...")
-    $goo.Command.RunExternal('dotnet','pack /clp:ErrorsOnly --configuration Release', $script:ProjectFolder)
-    $goo.StopIfError("Failed to pack solution. (Release)")
-    $nupkgFile = Get-ChildItem "$script:ProjectFolder\bin\Release\Nox.Cron.*.nupkg" | Sort-Object -Property LastWriteTime | Select-Object -Last 1
+    
+    $goo.Console.WriteInfo("Updating version for ($script:ProjectFolder) and dependancies...")
+    $goo.Command.Run( 'bump-project-version' )
+
+    $goo.Console.WriteInfo("Compiling project ($script:ProjectFolder)...")
+    $goo.Command.RunExternal('dotnet','build /clp:ErrorsOnly --warnaserror --configuration Release', $script:ProjectFolder)
+    $goo.StopIfError("Failed to build solution. (Release)")
+
+    $goo.Console.WriteInfo("Packing project ($script:ProjectFolder)...")
+    $goo.Command.RunExternal('dotnet','pack /clp:ErrorsOnly --no-build --configuration Release', $script:ProjectFolder)
+    $goo.StopIfError("Failed to pack solution (Release)")
+
+    $goo.Console.WriteInfo("Publishing project ($script:ProjectFolder) to Nuget.org...")
+    $nupkgFile = Get-ChildItem "$script:ProjectFolder\bin\Release\$script:SolutionName.*.nupkg" | Sort-Object -Property LastWriteTime | Select-Object -Last 1
     $goo.Command.RunExternal('dotnet',"nuget push $($nupkgFile.FullName) --api-key $Env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json", $script:ProjectFolder)
-    $goo.StopIfError("Failed to publish library to nuget. (Release)")
+    $goo.StopIfError("Failed to publish $script:ProjectFolder to nuget. (Release)")
+
 })
+
+$goo.Command.Add( 'bump-project-version', {
+    $files = (Get-ChildItem "*.csproj" -Recurse)
+    $xpaths = @(
+        "//AssemblyVersion",
+        "//FileVersion",
+        "//PackageVersion"
+    )
+
+    $xml = New-Object XML
+    foreach($file in $files){
+        $updated = $false
+        $versionNew = $null
+        $xml.Load($file)
+        foreach($p in $xpaths){ 
+            $node = $xml.SelectSingleNode($p)
+            if($null -ne $node){
+                $version = (($node.InnerText ?? $node.Value) -split '\.')
+                $version[2] = [int]($version[2])+1
+                $versionNew = ($version -join '.')
+                $node.InnerText = $versionNew
+                $updated = $true
+        }
+        }
+        if ($updated) {
+            $goo.Console.WriteLine("Bumping version for $($file.Name) to $versionNew..." )
+            $xml.Save($file)
+        }
+    }
+})
+
 
 <# --- START GOO EXECUTION --- #>
 

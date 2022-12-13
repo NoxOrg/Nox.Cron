@@ -3,10 +3,12 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	  <PackageId>Nox.Cron</PackageId>
-  	<Version>1.0.10</Version>
-  	<Authors>Andre Sharpe</Authors>
-  	<Company>Creations Unlimited</Company>
+    <PackageId>Nox.Cron</PackageId>
+    <AssemblyVersion>1.0.12.0</AssemblyVersion>
+    <FileVersion>1.0.12.0</FileVersion>
+    <PackageVersion>1.0.12</PackageVersion>
+    <Authors>Andre Sharpe</Authors>
+    <Company>Creations Unlimited</Company>
     <PackageTags>English Cron Extension String Convert</PackageTags>
     <PackageProjectUrl>https://github.com/andresharpe/Nox.Cron</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
