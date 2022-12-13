@@ -4,15 +4,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>Nox.Cron</PackageId>
-    <AssemblyVersion>1.0.12.0</AssemblyVersion>
-    <FileVersion>1.0.12.0</FileVersion>
-    <PackageVersion>1.0.12</PackageVersion>
+    <AssemblyVersion>1.0.13.0</AssemblyVersion>
+    <FileVersion>1.0.13.0</FileVersion>
+    <PackageVersion>1.0.13</PackageVersion>
     <Authors>Andre Sharpe</Authors>
     <Company>Creations Unlimited</Company>
     <PackageTags>English Cron Extension String Convert</PackageTags>
     <PackageProjectUrl>https://github.com/andresharpe/Nox.Cron</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageIcon>images\nox.png</PackageIcon>
+    <PackageIcon>nox.png</PackageIcon>
     <Description>
       Converts an English phrase to a CRON expression.
 
@@ -24,6 +24,6 @@
     </Description>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="..\..\nox.png" Pack="true" Visible="false" PackagePath="images\nox.png" />
+    <None Include="..\..\nox.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 </Project>
