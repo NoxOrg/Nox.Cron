@@ -4,7 +4,7 @@ namespace Nox.Cron
 {
 
     /// <summary>
-    /// Extension method to convert English phrase to a CRON expression
+    /// Extension method to convert English phrase to a CRON expression.
     /// </summary>
     public static class CronParserExtension
     {
