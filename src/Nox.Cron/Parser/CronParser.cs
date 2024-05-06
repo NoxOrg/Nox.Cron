@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Nox.Cron
 {
@@ -46,7 +49,7 @@ namespace Nox.Cron
             // keep lowercase alpha, numbers, colon and plus - ignore rest
             for (var i = 0; i < sbPhrase.Length; i++)
             {
-                if (!" +:0123456789abcdefghijklmnopqrstuvwxyz".Contains(sbPhrase[i])) 
+                if (" +:0123456789abcdefghijklmnopqrstuvwxyz".IndexOf(sbPhrase[i]) == -1) 
                     sbPhrase[i] = '_';
             }
             sbPhrase.Replace("_", "");
@@ -74,7 +77,8 @@ namespace Nox.Cron
 
             // Replace synonymns 
             var words = sbPhrase.ToString()
-                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Split(' ')
+                .Where(s => s.Length > 0)
                 .Select(x => Synonymn(x))
                 .ToList();
 
@@ -86,7 +90,7 @@ namespace Nox.Cron
             }
             
             // if there is a date implied, assume first phrase is a time and vice versa
-            if (!words[0].StartsWith('['))
+            if (!words[0].StartsWith("["))
             {
                 if (words.Contains("[T]") && !words.Contains("[D]"))
                     words.Insert(0, "[D]");
@@ -104,7 +108,7 @@ namespace Nox.Cron
                 var everyWordCount = 0;
                 for (var i = everyStartPos; i < words.Count; i++)
                 {
-                    if (words[i].StartsWith('[')) break;
+                    if (words[i].StartsWith("[")) break;
                     everyWordCount++;
                     sbEvery.Append(words[i]);
                     sbEvery.Append(' ');
@@ -160,8 +164,7 @@ namespace Nox.Cron
                     var everyParts = every.Split(' ').Reverse().ToArray();
                     
                     var everyPartString = "*/"+
-                        string.Join(',', 
-                            everyParts.Skip(1).Reverse().Skip(1).ToArray()
+                        string.Join(",", everyParts.Skip(1).Reverse().Skip(1).ToArray()
                         );
 
                     isEveryHandled = true;
@@ -342,14 +345,15 @@ namespace Nox.Cron
 
             // handle anything unparsed that may be a time or day-of-month
 
-            words = string.Join(' ', words.ToArray())
+            words = string.Join(" ", words.ToArray())
                 .Trim()
                 .Replace("[D]","_")
                 .Replace("[T]","_")
-                .Split('_', StringSplitOptions.RemoveEmptyEntries)
+                .Split('_')
                 .Select(s => s.Trim())
                 .Where(s => s.Length > 0)
                 .ToList();
+                
 
             for (var i = words.Count - 1; i > -1; i--)
             {
@@ -370,10 +374,14 @@ namespace Nox.Cron
 
                 if (!string.IsNullOrWhiteSpace(words[i]) && words[i].All(c => Char.IsWhiteSpace(c) || Char.IsDigit(c)))
                 {
-                    var elements = words[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                    schedule.DayOfMonth = string.Join(',',elements);
+                    var elements = words[i]
+                        .Split(' ')
+                        .Select(s => s.Trim())
+                        .Where(s => s.Length > 0)
+                        .ToList();
+
+                    schedule.DayOfMonth = string.Join(",", elements);
                     words.RemoveAt(i);
-                    continue;
                 }
 
             }
@@ -395,7 +403,7 @@ namespace Nox.Cron
             if (string.IsNullOrWhiteSpace(schedule.DayOfWeek))
                 schedule.DayOfWeek = "*";
 
-            schedule.Unparsed = string.Join(' ',words.ToArray()).Trim();
+            schedule.Unparsed = string.Join(" ",words.ToArray()).Trim();
 
             // done
 
