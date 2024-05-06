@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>Nox.Cron</PackageId>
-    <AssemblyVersion>8.0.0.0</AssemblyVersion>
-    <FileVersion>8.0.0.0</FileVersion>
-    <PackageVersion>8.0.0</PackageVersion>
+    <AssemblyVersion>7.0.0.0</AssemblyVersion>
+    <FileVersion>7.0.0.0</FileVersion>
+    <PackageVersion>7.0.0</PackageVersion>
     <Authors>Andre Sharpe</Authors>
     <Company>Creations Unlimited</Company>
     <PackageTags>English Cron Extension String Convert</PackageTags>
