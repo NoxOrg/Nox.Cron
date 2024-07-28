@@ -5,7 +5,6 @@ namespace Nox.Cron.Tests;
 
 public class UnitTests
 {
-
     private readonly ITestOutputHelper output;
 
     public UnitTests(ITestOutputHelper output)
@@ -149,67 +148,73 @@ public class UnitTests
     {
         Assert.Equal("0 9 * * *", "every day at 9am".ToCronExpression().ToString());
     }
-    
+
     [Fact]
     public void Test_every6hours()
     {
         Assert.Equal("0 */6 * * *", "every 6 hours".ToCronExpression().ToString());
     }
-    
+
+    [Fact]
+    public void Test_every2minutes_as_words()
+    {
+        Assert.Equal("0 */2 * * *", "every two hours".ToCronExpression().ToString());
+    }
+
     [Fact]
     public void Test_eachday()
     {
         Assert.Equal("0 0 * * *", "each day".ToCronExpression().ToString());
     }
-    
+
     [Fact]
     public void Test_5h15ameveryTuesday()
     {
         Assert.Equal("15 5 * * 2", "5:15am every Tuesday".ToCronExpression().ToString());
     }
-    
+
     [Fact]
     public void Test_newyear()
     {
         Assert.Equal("* * 1 1 *", "new year".ToCronExpression().ToString());
     }
-    
+
     [Fact]
     public void Test_at5pm()
     {
         Assert.Equal("0 17 * * *", "at 5 pm".ToCronExpression().ToString());
     }
-    
+
     [Fact]
     public void Test_5pm()
     {
         Assert.Equal("0 17 * * *", "5 pm".ToCronExpression().ToString());
     }
-    
+
     [Fact]
     public void Test_13JuneAt11h34()
     {
         Assert.Equal("34 11 13 6 *", "13 June at 11:34".ToCronExpression().ToString());
     }
-    
+
     [Fact]
     public void Test_11h34onJune13()
     {
         Assert.Equal("34 11 13 6 *", "11:34 on June 13".ToCronExpression().ToString());
     }
-    
+
     [Fact]
     public void Test_11h34onMondaysandFridays()
     {
         Assert.Equal("34 11 * * 1,5", "11:34 on Mondays and Fridays".ToCronExpression().ToString());
     }
-    
+
     [Fact]
     public void Test_11h34on13June()
     {
         Assert.Equal("34 11 13 6 *", "11:34 on 13 June".ToCronExpression().ToString());
     }
-    
+
     [Fact]
     public void Test_11h34on13and16June()
     {
@@ -221,6 +226,4 @@ public class UnitTests
     {
         Assert.Equal("0 2 * * 5", "Daily at 2am UTC on Fridays".ToCronExpression().ToString());
     }
-    
-    
 }

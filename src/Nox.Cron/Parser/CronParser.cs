@@ -5,7 +5,6 @@ using System.Text;
 
 namespace Nox.Cron
 {
-
     /// <summary>
     /// Extension method to convert English phrase to a CRON expression.
     /// </summary>
@@ -49,7 +48,7 @@ namespace Nox.Cron
             // keep lowercase alpha, numbers, colon and plus - ignore rest
             for (var i = 0; i < sbPhrase.Length; i++)
             {
-                if (" +:0123456789abcdefghijklmnopqrstuvwxyz".IndexOf(sbPhrase[i]) == -1) 
+                if (" +:0123456789abcdefghijklmnopqrstuvwxyz".IndexOf(sbPhrase[i]) == -1)
                     sbPhrase[i] = '_';
             }
             sbPhrase.Replace("_", "");
@@ -75,7 +74,7 @@ namespace Nox.Cron
             sbPhrase.Replace("halloween", "31 oct");
             sbPhrase.Replace("independance day", "4 jul");
 
-            // Replace synonymns 
+            // Replace synonymns
             var words = sbPhrase.ToString()
                 .Split(' ')
                 .Where(s => s.Length > 0)
@@ -88,13 +87,12 @@ namespace Nox.Cron
             {
                 words[phraseFrom] = words.Contains("[T]") ? "[D]" : "[T]";
             }
-            
+
             // if there is a date implied, assume first phrase is a time and vice versa
             if (!words[0].StartsWith("["))
             {
                 if (words.Contains("[T]") && !words.Contains("[D]"))
                     words.Insert(0, "[D]");
-                
                 else if (!words.Contains("[T]") && words.Contains("[D]"))
                     words.Insert(0, "[T]");
             }
@@ -102,7 +100,7 @@ namespace Nox.Cron
             // handle "every xxx day|hour|<minutes|<hours>|<days>|...
 
             var everyStartPos = words.IndexOf("every");
-            if (everyStartPos > -1 && words.Count > everyStartPos+1)
+            if (everyStartPos > -1 && words.Count > everyStartPos + 1)
             {
                 var sbEvery = new StringBuilder();
                 var everyWordCount = 0;
@@ -117,7 +115,7 @@ namespace Nox.Cron
                 var every = sbEvery.ToString().TrimEnd();
                 var isEveryHandled = true;
 
-                switch ($"{words[everyStartPos]} {words[everyStartPos+1]}")
+                switch ($"{words[everyStartPos]} {words[everyStartPos + 1]}")
                 {
                     case "every minute":
                         everyWordCount = 2;
@@ -156,19 +154,18 @@ namespace Nox.Cron
                     default:
                         isEveryHandled = false;
                         break;
-
                 }
 
                 if (!isEveryHandled)
                 {
                     var everyParts = every.Split(' ').Reverse().ToArray();
-                    
-                    var everyPartString = "*/"+
+
+                    var everyPartString = "*/" +
                         string.Join(",", everyParts.Skip(1).Reverse().Skip(1).ToArray()
                         );
 
                     isEveryHandled = true;
-                    
+
                     switch (everyParts[0])
                     {
                         case "minute":
@@ -189,9 +186,8 @@ namespace Nox.Cron
                             break;
 
                         default:
-                            isEveryHandled=false;
+                            isEveryHandled = false;
                             break;
-
                     }
                 }
 
@@ -226,13 +222,12 @@ namespace Nox.Cron
 
             var isDaySequence = false;
 
-            for(var i= 0; i < words.Count; i++ )
+            for (var i = 0; i < words.Count; i++)
             {
                 if (words[i].StartsWith("["))
                 {
                     // ignore all tokens
                 }
-
                 else if (days.Contains(words[i]))
                 {
                     isDaySequence = true;
@@ -244,7 +239,6 @@ namespace Nox.Cron
                     sbDayOfWeek.Append('_');
                     words[i] = "";
                 }
-
                 else if (months.Contains(words[i]))
                 {
                     isDaySequence = false;
@@ -256,7 +250,6 @@ namespace Nox.Cron
                     sbMonths.Append('_');
                     words[i] = "";
                 }
-
                 else if (words[i].Equals("-"))
                 {
                     if (isDaySequence)
@@ -281,52 +274,46 @@ namespace Nox.Cron
 
             // convert "odd" and "even" phrases
 
-            for (var i = 0; i < words.Count-1; i++)
+            for (var i = 0; i < words.Count - 1; i++)
             {
-                var thisAndNextWord = $"{words[i]} {words[i+1]}";
+                var thisAndNextWord = $"{words[i]} {words[i + 1]}";
 
                 if (thisAndNextWord.Equals("odd minute"))
                 {
                     schedule.Minutes = "1-59/2";
                     words[i] = "";
-                    words[i+1] = "";
+                    words[i + 1] = "";
                 }
-
                 else if (thisAndNextWord.Equals("even minute"))
                 {
                     schedule.Minutes = "2-60/2";
                     words[i] = "";
-                    words[i+1] = "";
+                    words[i + 1] = "";
                 }
-
                 else if (thisAndNextWord.Equals("odd day"))
                 {
                     schedule.DayOfMonth = "1-31/2";
                     words[i] = "";
-                    words[i+1] = "";
+                    words[i + 1] = "";
                 }
-
                 else if (thisAndNextWord.Equals("even day"))
                 {
                     schedule.DayOfMonth = "2-30/2";
                     words[i] = "";
-                    words[i+1] = "";
+                    words[i + 1] = "";
                 }
-
                 else if (thisAndNextWord.Equals("odd month"))
                 {
                     schedule.Months = "1-11/2";
                     words[i] = "";
-                    words[i+1] = "";
+                    words[i + 1] = "";
                 }
-
                 else if (thisAndNextWord.Equals("even month"))
                 {
                     schedule.Months = "2-12/2";
                     words[i] = "";
-                    words[i+1] = "";
+                    words[i + 1] = "";
                 }
-
             }
 
             // handle "never"
@@ -342,18 +329,16 @@ namespace Nox.Cron
                 words.Remove("never");
             }
 
-
             // handle anything unparsed that may be a time or day-of-month
 
             words = string.Join(" ", words.ToArray())
                 .Trim()
-                .Replace("[D]","_")
-                .Replace("[T]","_")
+                .Replace("[D]", "_")
+                .Replace("[T]", "_")
                 .Split('_')
                 .Select(s => s.Trim())
                 .Where(s => s.Length > 0)
                 .ToList();
-                
 
             for (var i = words.Count - 1; i > -1; i--)
             {
@@ -383,7 +368,6 @@ namespace Nox.Cron
                     schedule.DayOfMonth = string.Join(",", elements);
                     words.RemoveAt(i);
                 }
-
             }
 
             // default all elements of schedule to "*"
@@ -403,7 +387,7 @@ namespace Nox.Cron
             if (string.IsNullOrWhiteSpace(schedule.DayOfWeek))
                 schedule.DayOfWeek = "*";
 
-            schedule.Unparsed = string.Join(" ",words.ToArray()).Trim();
+            schedule.Unparsed = string.Join(" ", words.ToArray()).Trim();
 
             // done
 
@@ -432,6 +416,36 @@ namespace Nox.Cron
                 "years" => "year",
 
                 // Synonymns - numbers
+
+                "one" => "1",
+                "two" => "2",
+                "three" => "3",
+                "four" => "4",
+                "five" => "5",
+                "six" => "6",
+                "seven" => "7",
+                "eight" => "8",
+                "nine" => "9",
+                "ten" => "10",
+                "eleven" => "11",
+                "twelve" => "12",
+                "thirteen" => "13",
+                "fourteen" => "14",
+                "fifteen" => "15",
+                "sixteen" => "16",
+                "seventeen" => "17",
+                "eighteen" => "18",
+                "nineteen" => "19",
+                "twenty" => "20",
+                "thirty" => "30",
+                "fourty" => "40",
+                "forty" => "40",
+                "fifty" => "50",
+                "sixty" => "60",
+                "seventy" => "70",
+                "eighty" => "80",
+                "ninety" => "90",
+                "hundred" => "100",
 
                 "first" => "1",
                 "second" => "2",
@@ -546,7 +560,6 @@ namespace Nox.Cron
                 "october" => "oct",
                 "november" => "nov",
                 "december" => "dec",
-
 
                 // time zones
                 "acdt" => "+10:30",
@@ -759,12 +772,10 @@ namespace Nox.Cron
 
                 "each" => "every",
 
-
                 // no synonymn
 
                 _ => word,
             };
         }
-
     }
 }
