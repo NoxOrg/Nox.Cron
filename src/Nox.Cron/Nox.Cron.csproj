@@ -5,9 +5,9 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>Nox.Cron</PackageId>
-    <AssemblyVersion>8.0.2</AssemblyVersion>
-    <FileVersion>8.0.2</FileVersion>
-    <PackageVersion>8.0.2</PackageVersion>
+    <AssemblyVersion>8.0.3</AssemblyVersion>
+    <FileVersion>8.0.3</FileVersion>
+    <PackageVersion>8.0.3</PackageVersion>
     <Authors>Andre Sharpe</Authors>
     <Company>Creations Unlimited</Company>
     <PackageTags>English Cron Extension String Convert</PackageTags>
