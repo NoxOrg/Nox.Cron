@@ -61,6 +61,15 @@ namespace Nox.Cron
             sbPhrase.Replace("yearly", "every year");
             sbPhrase.Replace("annually", "every year");
 
+            // remove well known time phrasing
+            sbPhrase.Replace("every morning at", "day at");
+            sbPhrase.Replace("every evening at", "day at");
+            sbPhrase.Replace("every night at", "day at");
+            sbPhrase.Replace("every afternoon at", "day at");
+            sbPhrase.Replace("after", "past");
+            sbPhrase.Replace("half past", "30 past");
+            sbPhrase.Replace("quarter past", "15 past");
+
             // expand well known holidays
             sbPhrase.Replace("christmas day", "25 dec");
             sbPhrase.Replace("christmas", "25 dec");
@@ -78,7 +87,7 @@ namespace Nox.Cron
             var words = sbPhrase.ToString()
                 .Split(' ')
                 .Where(s => s.Length > 0)
-                .Select(x => Synonymn(x))
+                .Select(Synonymn)
                 .ToList();
 
             // tokenize "from" as in "from January to August" or "from 10am to 11am"
@@ -95,6 +104,28 @@ namespace Nox.Cron
                     words.Insert(0, "[D]");
                 else if (!words.Contains("[T]") && words.Contains("[D]"))
                     words.Insert(0, "[T]");
+            }
+
+            // handle time in words
+            var pastStartPos = words.IndexOf("past");
+            if (pastStartPos > 0 && words.Count > pastStartPos + 1)
+            {
+                var pastStart = pastStartPos - 1;
+                var pastHour = words[pastStartPos + 1];
+                var pastMinute = words[pastStart];
+                if (pastMinute == "minute" && pastStartPos > 1)
+                {
+                    pastStart = pastStartPos - 2;
+                    pastMinute = words[pastStart];
+                }
+                if (!int.TryParse(pastHour, out var hour))
+                {
+                    var timeParts = pastHour.Split(':');
+                    _ = int.TryParse(timeParts[0], out hour);
+                }
+                var properTime = $"{hour}:{pastMinute}";
+                words.RemoveRange(pastStart, pastStartPos + 1 - pastStart + 1);
+                words.Insert(pastStart, properTime);
             }
 
             // handle "every xxx day|hour|<minutes|<hours>|<days>|...

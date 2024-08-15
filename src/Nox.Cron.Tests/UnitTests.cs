@@ -1,4 +1,3 @@
-using Nox.Cron;
 using Xunit.Abstractions;
 
 namespace Nox.Cron.Tests;
@@ -127,6 +126,12 @@ public class UnitTests
     }
 
     [Fact]
+    public void Test_Never()
+    {
+        Assert.Equal("0 0 31 2 0", "Never".ToCronExpression().ToString());
+    }
+
+    [Fact]
     public void Test_blank_Isnever()
     {
         Assert.Equal("0 0 31 2 0", "".ToCronExpression().ToString());
@@ -225,5 +230,41 @@ public class UnitTests
     public void Test_DailyAt2amOnFridays()
     {
         Assert.Equal("0 2 * * 5", "Daily at 2am UTC on Fridays".ToCronExpression().ToString());
+    }
+
+    [Fact]
+    public void Test_EveryMorningat2_05()
+    {
+        Assert.Equal("5 2 * * *", "Every morning at 2:05".ToCronExpression().ToString());
+    }
+
+    [Fact]
+    public void Test_DailyAt2_30am()
+    {
+        Assert.Equal("30 2 * * *", "Daily at 2:30am".ToCronExpression().ToString());
+    }
+
+    [Fact]
+    public void _10MinutesPastMidnight()
+    {
+        Assert.Equal("10 0 * * *", "10 minutes past midnight".ToCronExpression().ToString());
+    }
+
+    [Fact]
+    public void HalfPastMidnight()
+    {
+        Assert.Equal("30 0 * * *", "half past midnight".ToCronExpression().ToString());
+    }
+
+    [Fact]
+    public void NineteenAfterMidnight()
+    {
+        Assert.Equal("19 0 * * *", "19 after midnight".ToCronExpression().ToString());
+    }
+
+    [Fact]
+    public void DailyAt230Am()
+    {
+        Assert.Equal("30 2 * * *", "Daily at 2:30am".ToCronExpression().ToString());
     }
 }
